@@ -1,0 +1,29 @@
+{
+    "name": "driebit/prepper-mongo-db",
+    "type": "library",
+    "description": "Prep your app for running tests with MongoDB",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Driebit",
+            "homepage": "http://www.driebit.nl",
+            "email": "tech@driebit.nl"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "driebit/prepper": "1.0.x-dev",
+        "driebit/db-backup": "1.0.x-dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "Driebit\\Prepper\\MongoDb\\": "src/",
+            "Driebit\\Prepper\\MongoDb\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }    
+}
