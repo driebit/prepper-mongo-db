@@ -12,18 +12,22 @@ use Driebit\Prepper\Fixture\FixtureSet;
 
 class MongoDumpCache extends AbstractDoctrineCache
 {
+    private $backup;
+
     public function __construct(
         DocumentManager $objectManager,
-        StoreInterface $store
+        StoreInterface $store,
+        MongoDumpBackup $backup
     ) {
         parent::__construct($objectManager, $store);
+        $this->backup = $backup;
     }
     
     public function store(FixtureSet $fixtures)
     {
         $key = $this->getCacheKey($fixtures);
         $filename = $this->store->getPath($key);
-        $this->getMongoDumpBackup()->backup($this->getDatabase(), $filename);
+        $this->backup->backup($this->getDatabase(), $filename);
     }
     
     public function restore(FixtureSet $fixtures)
@@ -38,16 +42,11 @@ class MongoDumpCache extends AbstractDoctrineCache
             throw new BackupOutOfDateException($key);
         }
         
-        $this->getMongoDumpBackup()->restore(
+        $this->backup->restore(
             $this->getDatabase(),
             $backup->getFilename(),
             array('drop' => true)
         );
-    }
-    
-    private function getMongoDumpBackup()
-    {
-        return new MongoDumpBackup();
     }
     
     private function getDatabase()
